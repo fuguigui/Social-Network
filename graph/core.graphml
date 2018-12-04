@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
+         http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+<!-- Created by igraph -->
+  <key id="v_name" for="node" attr.name="name" attr.type="string"/>
+  <key id="v_iso" for="node" attr.name="iso" attr.type="string"/>
+  <key id="v_gdp" for="node" attr.name="gdp" attr.type="double"/>
+  <key id="v_OutDeg" for="node" attr.name="OutDeg" attr.type="double"/>
+  <key id="v_InDeg" for="node" attr.name="InDeg" attr.type="double"/>
+  <key id="v_Export" for="node" attr.name="Export" attr.type="double"/>
+  <key id="v_Import" for="node" attr.name="Import" attr.type="double"/>
+  <key id="v_TotTrade" for="node" attr.name="TotTrade" attr.type="double"/>
+  <key id="v_TradeType" for="node" attr.name="TradeType" attr.type="double"/>
+  <key id="v_GDP_level" for="node" attr.name="GDP_level" attr.type="string"/>
+  <key id="v_exports_to_low" for="node" attr.name="exports_to_low" attr.type="double"/>
+  <key id="v_exports_to_medium" for="node" attr.name="exports_to_medium" attr.type="double"/>
+  <key id="v_exports_to_high" for="node" attr.name="exports_to_high" attr.type="double"/>
+  <key id="v_imports_from_low" for="node" attr.name="imports_from_low" attr.type="double"/>
+  <key id="v_impors_from_medium" for="node" attr.name="impors_from_medium" attr.type="double"/>
+  <key id="v_imports_from_high" for="node" attr.name="imports_from_high" attr.type="double"/>
+  <key id="e_weight" for="edge" attr.name="weight" attr.type="double"/>
+  <graph id="G" edgedefault="directed">
+    <node id="n0">
+      <data key="v_name">Canada</data>
+      <data key="v_iso">CAN</data>
+      <data key="v_gdp">1549.073</data>
+      <data key="v_OutDeg">172</data>
+      <data key="v_InDeg">171</data>
+      <data key="v_Export">401340.837369</data>
+      <data key="v_Import">454158.470776</data>
+      <data key="v_TotTrade">855499.308145</data>
+      <data key="v_TradeType">2</data>
+      <data key="v_GDP_level">high</data>
+      <data key="v_exports_to_low">12531.75</data>
+      <data key="v_exports_to_medium">26541.200776</data>
+      <data key="v_exports_to_high">415085.52</data>
+      <data key="v_imports_from_low">27533.53</data>
+      <data key="v_impors_from_medium">32780.317369</data>
+      <data key="v_imports_from_high">341026.99</data>
+    </node>
+    <node id="n1">
+      <data key="v_name">China, P.R.: Mainland</data>
+      <data key="v_iso">CHN</data>
+      <data key="v_gdp">4604.285</data>
+      <data key="v_OutDeg">173</data>
+      <data key="v_InDeg">171</data>
+      <data key="v_Export">853683.221816</data>
+      <data key="v_Import">1281131.156074</data>
+      <data key="v_TotTrade">2134814.37789</data>
+      <data key="v_TradeType">2</data>
+      <data key="v_GDP_level">high</data>
+      <data key="v_exports_to_low">200159.08</data>
+      <data key="v_exports_to_medium">289901.576074</data>
+      <data key="v_exports_to_high">791070.5</data>
+      <data key="v_imports_from_low">144701.3</data>
+      <data key="v_impors_from_medium">232935.011816</data>
+      <data key="v_imports_from_high">476046.91</data>
+    </node>
+    <node id="n2">
+      <data key="v_name">France</data>
+      <data key="v_iso">FRA</data>
+      <data key="v_gdp">2937.321</data>
+      <data key="v_OutDeg">173</data>
+      <data key="v_InDeg">171</data>
+      <data key="v_Export">711738.413201</data>
+      <data key="v_Import">587301.283568</data>
+      <data key="v_TotTrade">1299039.696769</data>
+      <data key="v_TradeType">1</data>
+      <data key="v_GDP_level">high</data>
+      <data key="v_exports_to_low">73139.69</data>
+      <data key="v_exports_to_medium">183748.243568</data>
+      <data key="v_exports_to_high">330413.35</data>
+      <data key="v_imports_from_low">72075.39</data>
+      <data key="v_impors_from_medium">260818.623201</data>
+      <data key="v_imports_from_high">378844.4</data>
+    </node>
+    <node id="n3">
+      <data key="v_name">Germany</data>
+      <data key="v_iso">DEU</data>
+      <data key="v_gdp">3770.15</data>
+      <data key="v_OutDeg">172</data>
+      <data key="v_InDeg">172</data>
+      <data key="v_Export">1138467.79</data>
+      <data key="v_Import">1443143.87</data>
+      <data key="v_TotTrade">2581611.66</data>
+      <data key="v_TradeType">2</data>
+      <data key="v_GDP_level">high</data>
+      <data key="v_exports_to_low">139428.78</data>
+      <data key="v_exports_to_medium">616087.5</data>
+      <data key="v_exports_to_high">687627.59</data>
+      <data key="v_imports_from_low">117141.25</data>
+      <data key="v_impors_from_medium">571788.66</data>
+      <data key="v_imports_from_high">449537.88</data>
+    </node>
+    <node id="n4">
+      <data key="v_name">India</data>
+      <data key="v_iso">IND</data>
+      <data key="v_gdp">1224.096</data>
+      <data key="v_OutDeg">171</data>
+      <data key="v_InDeg">170</data>
+      <data key="v_Export">206510.077211</data>
+      <data key="v_Import">183762.708504</data>
+      <data key="v_TotTrade">390272.785715</data>
+      <data key="v_TradeType">1</data>
+      <data key="v_GDP_level">high</data>
+      <data key="v_exports_to_low">36469.68</data>
+      <data key="v_exports_to_medium">55779.158504</data>
+      <data key="v_exports_to_high">91513.87</data>
+      <data key="v_imports_from_low">30008.14</data>
+      <data key="v_impors_from_medium">56891.047211</data>
+      <data key="v_imports_from_high">119610.89</data>
+    </node>
+    <node id="n5">
+      <data key="v_name">Italy</data>
+      <data key="v_iso">ITA</data>
+      <data key="v_gdp">2402.062</data>
+      <data key="v_OutDeg">173</data>
+      <data key="v_InDeg">170</data>
+      <data key="v_Export">560776.615741</data>
+      <data key="v_Import">526697.538292</data>
+      <data key="v_TotTrade">1087474.154033</data>
+      <data key="v_TradeType">1</data>
+      <data key="v_GDP_level">high</data>
+      <data key="v_exports_to_low">78729.7</data>
+      <data key="v_exports_to_medium">164101.528292</data>
+      <data key="v_exports_to_high">283866.31</data>
+      <data key="v_imports_from_low">99382.23</data>
+      <data key="v_impors_from_medium">171362.815741</data>
+      <data key="v_imports_from_high">290031.57</data>
+    </node>
+    <node id="n6">
+      <data key="v_name">Japan</data>
+      <data key="v_iso">JPN</data>
+      <data key="v_gdp">5037.909</data>
+      <data key="v_OutDeg">173</data>
+      <data key="v_InDeg">169</data>
+      <data key="v_Export">674853.221929</data>
+      <data key="v_Import">740526.853803</data>
+      <data key="v_TotTrade">1415380.075732</data>
+      <data key="v_TradeType">2</data>
+      <data key="v_GDP_level">high</data>
+      <data key="v_exports_to_low">97680.43</data>
+      <data key="v_exports_to_medium">190159.403803</data>
+      <data key="v_exports_to_high">452687.02</data>
+      <data key="v_imports_from_low">110964.75</data>
+      <data key="v_impors_from_medium">229282.571929</data>
+      <data key="v_imports_from_high">334605.9</data>
+    </node>
+    <node id="n7">
+      <data key="v_name">Netherlands</data>
+      <data key="v_iso">NLD</data>
+      <data key="v_gdp">940.665</data>
+      <data key="v_OutDeg">173</data>
+      <data key="v_InDeg">171</data>
+      <data key="v_Export">602453.944456</data>
+      <data key="v_Import">624106.025936</data>
+      <data key="v_TotTrade">1226559.970392</data>
+      <data key="v_TradeType">2</data>
+      <data key="v_GDP_level">medium</data>
+      <data key="v_exports_to_low">37285.28</data>
+      <data key="v_exports_to_medium">204245.085936</data>
+      <data key="v_exports_to_high">382575.66</data>
+      <data key="v_imports_from_low">62871.37</data>
+      <data key="v_impors_from_medium">172120.774456</data>
+      <data key="v_imports_from_high">367461.8</data>
+    </node>
+    <node id="n8">
+      <data key="v_name">United Kingdom</data>
+      <data key="v_iso">GBR</data>
+      <data key="v_gdp">2921.132</data>
+      <data key="v_OutDeg">173</data>
+      <data key="v_InDeg">172</data>
+      <data key="v_Export">660259.715261</data>
+      <data key="v_Import">450638.379819</data>
+      <data key="v_TotTrade">1110898.09508</data>
+      <data key="v_TradeType">1</data>
+      <data key="v_GDP_level">high</data>
+      <data key="v_exports_to_low">33714.93</data>
+      <data key="v_exports_to_medium">177497.259819</data>
+      <data key="v_exports_to_high">239426.19</data>
+      <data key="v_imports_from_low">45897.96</data>
+      <data key="v_impors_from_medium">260613.625261</data>
+      <data key="v_imports_from_high">353748.13</data>
+    </node>
+    <node id="n9">
+      <data key="v_name">United States</data>
+      <data key="v_iso">USA</data>
+      <data key="v_gdp">14718.575</data>
+      <data key="v_OutDeg">173</data>
+      <data key="v_InDeg">169</data>
+      <data key="v_Export">2010543.800048</data>
+      <data key="v_Import">1269380.603969</data>
+      <data key="v_TotTrade">3279924.404017</data>
+      <data key="v_TradeType">1</data>
+      <data key="v_GDP_level">high</data>
+      <data key="v_exports_to_low">155488.1</data>
+      <data key="v_exports_to_medium">278990.603969</data>
+      <data key="v_exports_to_high">834901.9</data>
+      <data key="v_imports_from_low">218076.56</data>
+      <data key="v_impors_from_medium">418348.440048</data>
+      <data key="v_imports_from_high">1374118.8</data>
+    </node>
+    <edge source="n0" target="n1">
+      <data key="e_weight">9924.05</data>
+    </edge>
+    <edge source="n0" target="n2">
+      <data key="e_weight">3047.57</data>
+    </edge>
+    <edge source="n0" target="n3">
+      <data key="e_weight">4165.6</data>
+    </edge>
+    <edge source="n0" target="n4">
+      <data key="e_weight">2232.67</data>
+    </edge>
+    <edge source="n0" target="n5">
+      <data key="e_weight">2201.37</data>
+    </edge>
+    <edge source="n0" target="n6">
+      <data key="e_weight">10424</data>
+    </edge>
+    <edge source="n0" target="n7">
+      <data key="e_weight">3501.03</data>
+    </edge>
+    <edge source="n0" target="n8">
+      <data key="e_weight">12353.8</data>
+    </edge>
+    <edge source="n0" target="n9">
+      <data key="e_weight">354687</data>
+    </edge>
+    <edge source="n1" target="n0">
+      <data key="e_weight">26080.7</data>
+    </edge>
+    <edge source="n1" target="n2">
+      <data key="e_weight">23625.5</data>
+    </edge>
+    <edge source="n1" target="n3">
+      <data key="e_weight">61470.2</data>
+    </edge>
+    <edge source="n1" target="n4">
+      <data key="e_weight">32362.4</data>
+    </edge>
+    <edge source="n1" target="n5">
+      <data key="e_weight">27527.9</data>
+    </edge>
+    <edge source="n1" target="n6">
+      <data key="e_weight">120546</data>
+    </edge>
+    <edge source="n1" target="n7">
+      <data key="e_weight">48521.9</data>
+    </edge>
+    <edge source="n1" target="n8">
+      <data key="e_weight">38359.7</data>
+    </edge>
+    <edge source="n1" target="n9">
+      <data key="e_weight">273129</data>
+    </edge>
+    <edge source="n2" target="n0">
+      <data key="e_weight">4156.3</data>
+    </edge>
+    <edge source="n2" target="n1">
+      <data key="e_weight">13247</data>
+    </edge>
+    <edge source="n2" target="n3">
+      <data key="e_weight">86473.1</data>
+    </edge>
+    <edge source="n2" target="n4">
+      <data key="e_weight">4877.97</data>
+    </edge>
+    <edge source="n2" target="n5">
+      <data key="e_weight">52817.7</data>
+    </edge>
+    <edge source="n2" target="n6">
+      <data key="e_weight">8240.72</data>
+    </edge>
+    <edge source="n2" target="n7">
+      <data key="e_weight">25183.7</data>
+    </edge>
+    <edge source="n2" target="n8">
+      <data key="e_weight">47119</data>
+    </edge>
+    <edge source="n2" target="n9">
+      <data key="e_weight">35013.4</data>
+    </edge>
+    <edge source="n3" target="n0">
+      <data key="e_weight">9187.1</data>
+    </edge>
+    <edge source="n3" target="n1">
+      <data key="e_weight">50131.9</data>
+    </edge>
+    <edge source="n3" target="n2">
+      <data key="e_weight">142575</data>
+    </edge>
+    <edge source="n3" target="n4">
+      <data key="e_weight">11923.6</data>
+    </edge>
+    <edge source="n3" target="n5">
+      <data key="e_weight">94312.7</data>
+    </edge>
+    <edge source="n3" target="n6">
+      <data key="e_weight">18813.3</data>
+    </edge>
+    <edge source="n3" target="n7">
+      <data key="e_weight">96465.4</data>
+    </edge>
+    <edge source="n3" target="n8">
+      <data key="e_weight">98530.3</data>
+    </edge>
+    <edge source="n3" target="n9">
+      <data key="e_weight">104728</data>
+    </edge>
+    <edge source="n4" target="n0">
+      <data key="e_weight">2065.89</data>
+    </edge>
+    <edge source="n4" target="n1">
+      <data key="e_weight">20779.3</data>
+    </edge>
+    <edge source="n4" target="n2">
+      <data key="e_weight">3893.67</data>
+    </edge>
+    <edge source="n4" target="n3">
+      <data key="e_weight">6432.16</data>
+    </edge>
+    <edge source="n4" target="n5">
+      <data key="e_weight">4605.59</data>
+    </edge>
+    <edge source="n4" target="n6">
+      <data key="e_weight">4760.56</data>
+    </edge>
+    <edge source="n4" target="n7">
+      <data key="e_weight">3650.74</data>
+    </edge>
+    <edge source="n4" target="n8">
+      <data key="e_weight">7006.64</data>
+    </edge>
+    <edge source="n4" target="n9">
+      <data key="e_weight">24483.2</data>
+    </edge>
+    <edge source="n5" target="n0">
+      <data key="e_weight">3822.02</data>
+    </edge>
+    <edge source="n5" target="n1">
+      <data key="e_weight">9486.15</data>
+    </edge>
+    <edge source="n5" target="n2">
+      <data key="e_weight">60529.5</data>
+    </edge>
+    <edge source="n5" target="n3">
+      <data key="e_weight">68865.5</data>
+    </edge>
+    <edge source="n5" target="n4">
+      <data key="e_weight">4558.15</data>
+    </edge>
+    <edge source="n5" target="n6">
+      <data key="e_weight">6251.11</data>
+    </edge>
+    <edge source="n5" target="n7">
+      <data key="e_weight">12629.9</data>
+    </edge>
+    <edge source="n5" target="n8">
+      <data key="e_weight">28401.9</data>
+    </edge>
+    <edge source="n5" target="n9">
+      <data key="e_weight">33905.4</data>
+    </edge>
+    <edge source="n6" target="n0">
+      <data key="e_weight">10783.5</data>
+    </edge>
+    <edge source="n6" target="n1">
+      <data key="e_weight">125039</data>
+    </edge>
+    <edge source="n6" target="n2">
+      <data key="e_weight">9120.47</data>
+    </edge>
+    <edge source="n6" target="n3">
+      <data key="e_weight">23989.4</data>
+    </edge>
+    <edge source="n6" target="n4">
+      <data key="e_weight">7890.61</data>
+    </edge>
+    <edge source="n6" target="n5">
+      <data key="e_weight">6817.76</data>
+    </edge>
+    <edge source="n6" target="n7">
+      <data key="e_weight">21088.3</data>
+    </edge>
+    <edge source="n6" target="n8">
+      <data key="e_weight">16450.7</data>
+    </edge>
+    <edge source="n6" target="n9">
+      <data key="e_weight">139022</data>
+    </edge>
+    <edge source="n7" target="n0">
+      <data key="e_weight">2575.98</data>
+    </edge>
+    <edge source="n7" target="n1">
+      <data key="e_weight">5864.15</data>
+    </edge>
+    <edge source="n7" target="n2">
+      <data key="e_weight">53196.6</data>
+    </edge>
+    <edge source="n7" target="n3">
+      <data key="e_weight">159711</data>
+    </edge>
+    <edge source="n7" target="n4">
+      <data key="e_weight">2379.47</data>
+    </edge>
+    <edge source="n7" target="n5">
+      <data key="e_weight">29464.1</data>
+    </edge>
+    <edge source="n7" target="n6">
+      <data key="e_weight">4439.59</data>
+    </edge>
+    <edge source="n7" target="n8">
+      <data key="e_weight">56510</data>
+    </edge>
+    <edge source="n7" target="n9">
+      <data key="e_weight">24836.7</data>
+    </edge>
+    <edge source="n8" target="n0">
+      <data key="e_weight">6763.81</data>
+    </edge>
+    <edge source="n8" target="n1">
+      <data key="e_weight">9024.64</data>
+    </edge>
+    <edge source="n8" target="n2">
+      <data key="e_weight">34581.5</data>
+    </edge>
+    <edge source="n8" target="n3">
+      <data key="e_weight">52913.4</data>
+    </edge>
+    <edge source="n8" target="n4">
+      <data key="e_weight">7458.39</data>
+    </edge>
+    <edge source="n8" target="n5">
+      <data key="e_weight">17379.2</data>
+    </edge>
+    <edge source="n8" target="n6">
+      <data key="e_weight">6844.24</data>
+    </edge>
+    <edge source="n8" target="n7">
+      <data key="e_weight">36035</data>
+    </edge>
+    <edge source="n8" target="n9">
+      <data key="e_weight">63764.5</data>
+    </edge>
+    <edge source="n9" target="n0">
+      <data key="e_weight">260914</data>
+    </edge>
+    <edge source="n9" target="n1">
+      <data key="e_weight">71457</data>
+    </edge>
+    <edge source="n9" target="n2">
+      <data key="e_weight">29949.1</data>
+    </edge>
+    <edge source="n9" target="n3">
+      <data key="e_weight">54732.3</data>
+    </edge>
+    <edge source="n9" target="n4">
+      <data key="e_weight">18666.4</data>
+    </edge>
+    <edge source="n9" target="n5">
+      <data key="e_weight">15497.3</data>
+    </edge>
+    <edge source="n9" target="n6">
+      <data key="e_weight">66579.2</data>
+    </edge>
+    <edge source="n9" target="n7">
+      <data key="e_weight">40223.1</data>
+    </edge>
+    <edge source="n9" target="n8">
+      <data key="e_weight">53775.1</data>
+    </edge>
+  </graph>
+</graphml>

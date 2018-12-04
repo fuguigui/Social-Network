@@ -1,0 +1,208 @@
+---
+title: "Assignment-5"
+author: "Ritu Sriram"
+date: "November 30, 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Setup environment
+
+```{r}
+rm(list = ls())
+setwd("G:/Autumn 2018/Network Analysis/na_lab/as5")
+```
+
+# Import data
+
+```{r data}
+#Read countries.csv
+countries <- read.csv("./countries.csv", header = T, sep=",", stringsAsFactors = F)
+str(countries)
+```
+```{r}
+#Read exports.csv
+exports <- data.matrix(read.csv("./exports.csv", row.names = 1, header = T, sep=",", stringsAsFactors = F))
+colnames(exports) <- countries$iso
+rownames(exports) <- countries$iso
+str(exports)
+exports[is.na(exports)] <- 0
+sum(is.na(exports))
+```
+
+# Build the network object
+```{r, echo=FALSE}
+library(igraph)
+library(ggplot2)
+library(ggraph)
+```
+```{r tradegraph}
+trade_graph <- graph.adjacency(exports,
+                              mode = 'directed',
+                              weighted = T)
+trade_graph <-set_vertex_attr(trade_graph,  "iso",
+                              index=countries$X,
+                              value=countries$iso)
+trade_graph <-set_vertex_attr(trade_graph,  "gdp",
+                              index=countries$X,
+                              value=countries$gdp)
+summary(trade_graph)
+```
+
+# Analyse the network
+
+This is a directed graph with 174 vertices and 18416 edges.
+
+# Degree distribution of the network
+
+```{r degree_dist}
+par(mfrow=c(3,1))
+out_degree <- degree(trade_graph, mode = 'out')
+out_degree_hist <- hist(out_degree, breaks = seq(0,200,by=10), xlim = c(0,200))
+
+in_degree <- degree(trade_graph, mode = 'in')
+in_degree_hist <- hist(in_degree,  breaks = seq(0,200,by=10), xlim = c(0,200))
+
+total_degree <- degree(trade_graph, mode = 'total')
+total_degree_hist <- hist(total_degree,  breaks = seq(0,400,by=10), xlim = c(0,400))
+```
+
+# Adding two new attributes (total_export, total_import)
+
+```{r}
+total_export <- c(0, times=174)
+total_import <- c(0, times=174)
+
+for(i in c(1:174)){
+  total_import[i] <- sum(exports[i,])
+  total_export[i] <- sum(exports[,i])
+}
+
+countries$total_export <- total_export
+countries$total_import <- total_import
+```
+
+```{r scatter_plot}
+p <- qplot(x = total_import, y=total_export,xlim = c(0,max(total_import)), ylim = c(0,max(total_export)))
+p <- p + theme_bw()+ geom_abline(slope=1)
+p
+ggsave('export_scatter.png', p)
+```
+```{r}
+class_1 <- countries[which(total_export>total_import),]
+class_2 <- countries[which(total_export<total_import),]
+mean(class_1$gdp)
+mean(class_2$gdp)
+```
+# Add new attribute, splitting into two classes
+```{r}
+countries$type[which(countries$total_export > countries$total_import)] <- 1
+countries$type[which(countries$total_export < countries$total_import)] <- 2
+```
+
+# Add export, import and type attributes to graph 
+
+```{r}
+trade_graph <- set_vertex_attr(trade_graph,"total_export",
+                               index = V(trade_graph),countries$total_export)
+trade_graph <- set_vertex_attr(trade_graph,"total_import",
+                               index = V(trade_graph),countries$total_import)
+trade_graph <- set_vertex_attr(trade_graph,"type",
+                               index = V(trade_graph),countries$type)
+```
+
+# Hypothesis: If total_export > total_import, country is economically forward? gdp is greater
+
+```{r}
+diff <- countries$total_export - countries$total_import
+cor.test(diff,countries$gdp)
+```
+There is a positive correlation between difference in export and import and gdp of the countries. This shows that if this difference is positive, then the country is economically more forward.
+
+# Number of export and import relations
+
+```{r}
+# Number of export relations
+countries$n_er <- out_degree
+
+# Number of import relations
+countries$n_ir <- in_degree
+
+trade_graph <- set_vertex_attr(trade_graph,"n_er",
+                               index = V(trade_graph),countries$n_er)
+trade_graph <- set_vertex_attr(trade_graph,"n_ir",
+                               index = V(trade_graph),countries$n_ir)
+```
+
+# Hypothesis: If #_export_relations > #_import_relations, country is economically forward? gdp is greater
+
+```{r}
+diff <- countries$n_er - countries$n_ir
+cor.test(diff,countries$gdp)
+```
+This hypothesis is not true. No strong correlation between gdp of a country and number of export relations being greater than number of import relations.
+
+We now try to compute the densities of full graph, of the graph induced by type_1(exp > imp) vertices and of the graph induced by type_2(exp < imp) vertices.
+
+```{r}
+# density of yeast_graph
+igraph::graph.density(trade_graph)
+
+# density of subgraph induced by type_1
+t1_vert <- V(trade_graph)[type==1]
+sub_t1 <- induced_subgraph(trade_graph, t1_vert)
+graph.density(sub_t1)
+
+# density of subgraph induced by type_2
+t2_vert <- V(trade_graph)[type==2]
+sub_t2 <- induced_subgraph(trade_graph, t2_vert)
+graph.density(sub_t2)
+```
+The given graph is fairly dense. But we can see that the subgraph of countries having higher exports than imports is less dense as compared to the subgraph of countries having higher imports than exports.
+(We have already established that there is a positive correlation between the gdp of a country and for it to have higher exports than imports which indicates self-sufficiency to some extent.)
+This says that countries with higher gdp interact less among themselves and probably more with the lower gdp countries as one would expect.
+
+# Graph center
+
+```{r eccentricity}
+ec_out <- eccentricity(trade_graph, vids = V(trade_graph),
+                               mode = c("out"))
+hist(ec_out, breaks = c(0,1,2))
+
+#which(ec_out == max(ec_out))
+#163 vertices with ec=2
+
+which(ec_out == min(ec_out))
+#11 vertices with ec=1
+```
+
+We can see that the majority maximum distance between any pair of nodes is just 2. Every node is atmost 2 hops away from each other.
+By comparision, we can see 11 countries which have a directed edge link with every other country in the graph.
+In graph theory, vertices with minimum eccentricity  are referred to as the centre of the graph. So we find BEL, CHN, DNK, FRA, ITA, JPN, MYS, NLD, CHE, GBR, USA to be the 11 central nodes in this trade graph.
+
+# Drawing a relationship between graph centres and their GDPs
+
+```{r}
+# Rank the above 11 countries based on their GDPs
+order.gdp <- order(countries$gdp, decreasing = T)
+countries$rank[order.gdp] <- 1:nrow(countries)
+
+trade_graph <- set_vertex_attr(trade_graph,"rank",
+                               index = V(trade_graph),countries$rank)
+
+centres_df <- countries[(which(ec_out== min(ec_out))),]
+centres_df <- centres_df[c('iso','gdp','rank')]
+order.ranks<-order(centres_df$rank)
+centres_df[order.ranks,]
+```
+
+6 countries among the top 10 gdp holders are found to be centres of this trade graph. This implies the countries which can afford to export to all other countries in the network are the ones with the highest GDPs or we can also put it as these 11 economically forward countries have the highest number of export relations compared to the remaining country nodes in the graph.
+
+# Write graph for visione
+```{r}
+write.graph(trade_graph,"./tg-3.graphml","graphml")
+```
+

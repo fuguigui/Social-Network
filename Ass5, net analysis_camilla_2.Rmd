@@ -1,0 +1,260 @@
+---
+title: "Ass5"
+author: "Camilla Casamento Tumeo"
+date: "23 novembre 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Importing the libraries.
+
+```{r}
+library(igraph)
+```
+
+We load the data.
+
+```{r}
+countries <- read.csv("countries.csv", header = TRUE, sep = ",", stringsAsFactors=F)
+exports <- data.matrix(read.csv("./exports.csv", row.names = 1, header = T, sep=",", stringsAsFactors = F))
+names <- rownames(exports <- data.matrix(read.csv("./exports.csv", row.names = 1, header = T, sep=",", stringsAsFactors = F)))
+colnames(exports) <- names
+rownames(exports) <- names
+exports[is.na(exports)] <- 0
+
+```
+
+Build graph object with attributes.
+
+
+
+```{r}
+exports_graph <- graph.adjacency(exports, mode="directed", weighted=T)
+exports_graph <- set_vertex_attr(exports_graph, "iso", countries$id, countries$iso)
+exports_graph <- set_vertex_attr(exports_graph, "id", countries$id, countries$id)
+exports_graph <- set_vertex_attr(exports_graph, "country", countries$id, countries$country)
+exports_graph <- set_vertex_attr(exports_graph, "gdp", countries$id, countries$gdp)
+exports_graph <- set_vertex_attr(exports_graph, "name", countries$id, names)
+```
+
+# Positional dominance
+
+# Exports dominance
+
+We say that i dominates j if the sum of all outgoing edges from i is greater that the sum of all outgoing edges from j. We think the countries who export more are among the most important players.
+
+```{r}
+Adj <- exports
+tot_export <- rowSums(Adj)
+tot_import <- colSums(Adj)
+
+# Set attributes
+exports_graph<-set_vertex_attr(exports_graph, "tot_export", index = countries$id, value = tot_export)
+
+plot(countries$id, get.vertex.attribute(exports_graph, "tot_export"),
+text(countries$id, get.vertex.attribute(exports_graph, "tot_export"), labels = get.vertex.attribute(exports_graph, "name")))
+
+# 5 countries that export more
+sort(tot_export, decreasing = TRUE)[1:5]
+#5 countries that export less
+sort(tot_export)[1:5]
+
+```
+
+# Import dominance
+
+Defined as before, but considering import (ingoing) ties rather than export ones.
+
+```{r}
+# Set attributes
+exports_graph<-set_vertex_attr(exports_graph, "tot_import", index = countries$id, value = tot_import)
+
+plot(countries$id, get.vertex.attribute(exports_graph, "tot_import"),
+text(countries$id, get.vertex.attribute(exports_graph, "tot_import"), labels = get.vertex.attribute(exports_graph, "name")))
+
+# 5 countries that import more
+sort(tot_import, decreasing=TRUE)[1:5]
+# 5 countries that import less
+sort(tot_import)[1:5]
+```
+
+# GDP dominance
+
+Here we will simply say that i dominates j if i has a higher GDP than j has.
+
+```{r}
+low_threshold <- 200
+high_threshold <- 1000
+
+poor_GDP <- V(exports_graph)[V(exports_graph)$gdp <low_threshold]
+sort(poor_GDP)[1:5]
+
+high_GDP <-  V(exports_graph)[V(exports_graph)$gdp >high_threshold]
+sort(high_GDP, decreasing=TRUE)[1:5]
+```
+
+# We divide countries in 3 groups based on their GDP level
+
+We divide the countries in three groups based on their GDP level. We will assign a "GDP level" attribute to the countries: this attribute may assume values "low", "medium" or "high" based on the GDP of the considered countrie. The level will be low if $GDP < 200$, medium if $200 \leq GDP \leq 1000$ or high if $GDP > 1000$.
+
+```{r}
+threshold_low <- 200
+threshold_high <- 1000
+# Set attribute
+vertex_attr(exports_graph, "GDP_level") <- ifelse(get.vertex.attribute(exports_graph, "gdp")<threshold_low, "low", ifelse(get.vertex.attribute(exports_graph, "gdp")>threshold_high, "high", "medium"))
+```
+
+
+# Positional dominance with respect to different groups (who exports more towards each group)
+
+Here we want to understand who exports more in each group. This way we understand who gets more richness from each group.
+We will say that $i$ dominates $j$ with respect to group $k$ if the sum of exports ties from i to all vertices in group k is greater or equal to the corresponding sum of export ties from $j$ to vertices in group $k$.
+
+
+```{r}
+# Scores based on each group
+getID_low <- as.vector(countries$id[countries$gdp<threshold_low])
+group1 <- as.matrix(Adj[1:174,getID_low])
+group1 <- rowSums(group1)
+exports_graph<-set_vertex_attr(exports_graph, "exports_to_low", index=countries$id, value = group1)
+
+getID_medium <- as.vector(countries$id[countries$gdp>= threshold_low & countries$gdp <= threshold_high])
+group2 <- as.matrix(Adj[1:174,getID_medium])
+group2 <- rowSums(group2)
+exports_graph<-set_vertex_attr(exports_graph, "exports_to_medium", index=countries$id, value = group2)
+
+getID_high <- as.vector(countries$id[countries$gdp>threshold_high])
+group3 <- as.matrix(Adj[1:174,getID_high])
+group3 <- rowSums(group3)
+exports_graph<-set_vertex_attr(exports_graph, "exports_to_high", index = countries$id, value = group3)
+
+# getting some results
+# first 5 exporters to low group
+sort(group1, decreasing=TRUE)[1:5]
+# first 5 exporters to medium group
+sort(group2, decreasing=TRUE)[1:5]
+# first 5 exporters to high group
+sort(group3, decreasing=TRUE)[1:5]
+```
+
+# Positional dominance with respect to different groups (who imports more from each group)
+
+Similar as before, but this time we want to understand who imports more from each group.
+
+```{r}
+# Scores based on each group
+getID_low <- as.vector(countries$id[countries$gdp<threshold_low])
+group1 <- as.matrix(Adj[getID_low, 1:174])
+group1 <- colSums(group1)
+exports_graph<-set_vertex_attr(exports_graph, "imports_from_low", index=countries$id, value = group1)
+
+getID_medium <- as.vector(countries$id[countries$gdp>=threshold_low & countries$gdp <= threshold_high])
+group2 <- as.matrix(Adj[getID_medium, 1:174])
+group2 <- colSums(group2)
+exports_graph<-set_vertex_attr(exports_graph, "impors_from_medium", index=countries$id, value = group2)
+
+getID_high <- as.vector(countries$id[countries$gdp>threshold_high])
+group3 <- as.matrix(Adj[getID_high, 1:174])
+group3 <- colSums(group3)
+exports_graph<-set_vertex_attr(exports_graph, "imports_from_high", index = countries$id, value = group3)
+
+# getting some results (get first 5 countries for each group)
+# first 5 importers from low group
+sort(group1, decreasing=TRUE)[1:5]
+# first 5 importers from medium group
+sort(group2, decreasing=TRUE)[1:5]
+# first 5 importers from high group
+sort(group3, decreasing=TRUE)[1:5]
+
+
+
+```
+
+# Who exports more within each group
+
+Now we are interested in understanding who are the important players WITHIN each group. We say that for every two countries i, j in group k, i dominates j with respect to export if the sum of all outgoing ties from i to countries in group k is greater than the same value for j.
+
+```{r}
+# Scores based on each group
+getID_low <- as.vector(countries$id[countries$gdp<threshold_low])
+group1 <- as.matrix(Adj[getID_low,getID_low])
+group1 <- rowSums(group1)
+
+
+getID_medium <- as.vector(countries$id[countries$gdp>=threshold_low & countries$gdp <= threshold_high])
+group2 <- as.matrix(Adj[getID_medium,getID_medium])
+group2 <- rowSums(group2)
+
+
+getID_high <- as.vector(countries$id[countries$gdp>threshold_high])
+group3 <- as.matrix(Adj[getID_high,getID_high])
+group3 <- rowSums(group3)
+
+sort(group1, decreasing=TRUE)[1:5]
+sort(group2, decreasing=TRUE)[1:5]
+sort(group3, decreasing=TRUE)[1:5]
+
+```
+
+# Who imports more within each group
+
+Defined as before, but with respect to import.
+
+```{r}
+# Scores based on each group
+getID_low <- as.vector(countries$id[countries$gdp< threshold_low])
+group1 <- as.matrix(Adj[getID_low, getID_low])
+group1 <- colSums(group1)
+
+
+getID_medium <- as.vector(countries$id[countries$gdp>=threshold_low & countries$gdp <= threshold_high])
+group2 <- as.matrix(Adj[getID_medium, getID_medium])
+group2 <- colSums(group2)
+
+
+getID_high <- as.vector(countries$id[countries$gdp> threshold_high])
+group3 <- as.matrix(Adj[getID_high, getID_high])
+group3 <- colSums(group3)
+
+
+# getting some results
+sort(group1, decreasing=TRUE)[1:5]
+sort(group2, decreasing=TRUE)[1:5]
+sort(group3, decreasing=TRUE)[1:5]
+
+```
+
+
+
+
+# Correlation between GDP and import
+
+```{r}
+plot(get.vertex.attribute(exports_graph, "gdp"), get.vertex.attribute(exports_graph, "tot_import"), xlab="gdp", ylab="tot_import", col="blue", text(get.vertex.attribute(exports_graph, "gdp"), get.vertex.attribute(exports_graph, "tot_import"), label=countries$name))
+```
+
+# Correlation between GDP and export
+
+```{r}
+plot(get.vertex.attribute(exports_graph, "gdp"), get.vertex.attribute(exports_graph, "tot_export"), col="red", xlab = "gdp", ylab="tot_export", text(get.vertex.attribute(exports_graph, "gdp"), get.vertex.attribute(exports_graph, "tot_export"), label=countries$name))
+```
+
+
+
+# Correlation between import and export
+
+```{r}
+plot(get.vertex.attribute(exports_graph, "tot_import"), get.vertex.attribute(exports_graph, "tot_export"), xlab = "tot_import", ylab="tot_export", col="green",  text(get.vertex.attribute(exports_graph, "tot_import"), get.vertex.attribute(exports_graph, "tot_export"), label=countries$name))
+```
+
+# Overall conclusions about this section
+
+* There are countries that dominate the trade scene both for total import and total export: among these the most important are China, Germany, USA (we showed there is positive correlation between total import and total export, so the ones who export more are also the ones who import more).
+
+* Whe defined the simple concept of GDP dominance and divided the countries in 3 main cathegories (low, medium, high GDP).
+
+* It turned out that the leading countries for import and export were also the ones who exported, imported more with respect to each GDP group.
+
+* In the end we tried to understand who are the most important countries within the groups. China, Japan, USA and Germany remain the most important in the high GDP group. We found out that the most important countries in the medium level GDP group are Netherlands, Belgium, Sweden, Poland, Turkey, Saudi Arabia (they are important both for import and export). Finally, the most important import/export countries in the low-level group are Singapore, Ukraine, Hungary, Vietnam Philippines: these are among the most important countries in the low_GDP group.
